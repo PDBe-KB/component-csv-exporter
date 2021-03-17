@@ -10,7 +10,7 @@
     BibTeX <input type="radio" (click)="setDownloadType('bibtex')" name="download-{{getSectionId()}}" value="bibtex" style="margin-bottom: 0"
                 onclick="gtag('event', 'click', {'event_category': 'download', 'event_label': 'bibtex', 'value': 'selected'})">
   </span>
-  <button class="button label-tooltip" (click)="saveData()" [disabled]="!downloadType" style="margin: 0 0 0 10px"
+  <button class="button label-tooltip" (click)="createOrSave(downloadType)" [disabled]="!downloadType" style="margin: 0 0 0 10px"
           onclick="gtag('event', 'click', {'event_category': 'download', 'event_label': 'download', 'value': 'clicked'})">
     Download&nbsp;
     <i class="icon icon-functional" data-icon="="></i>

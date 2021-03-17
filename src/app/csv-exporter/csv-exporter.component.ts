@@ -27,19 +27,32 @@ export class CsvExporterComponent {
 
   setDownloadType(type: string) {
     this.downloadType = type;
-    this.createCsv();
+    this.createOrSave(this.category);
     if (this.category === 'publication') {
       this.createBibTeX();
     }
   }
 
-  saveData() {
-    if (this.downloadType === 'csv') {
-      this.saveCsvFile();
-    } else if (this.downloadType === 'json') {
-      this.saveAsJson();
-    } else if (this.downloadType === 'bibtex') {
-      this.saveBibTeXFile();
+  createOrSave(input: string) {
+    switch (input) {
+      case 'csv':
+        this.saveCsvFile();
+        break;
+      case 'json':
+        this.saveAsJson();
+        break;
+      case 'bibtex':
+        this.saveBibTeXFile();
+        break;
+      case 'protvista':
+        this.createProtVistaCsv();
+        break;
+      case 'publication':
+        this.createPublicationCsv();
+        break;
+      case 'similar':
+        this.createSimilarProteinsCsv();
+        break;
     }
   }
 
@@ -53,16 +66,6 @@ export class CsvExporterComponent {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-  }
-
-  createCsv() {
-    if (this.category === 'protvista') {
-      this.createProtVistaCsv();
-    } else if (this.category === 'publication') {
-      this.createPublicationCsv();
-    } else if (this.category === 'similar') {
-      this.createSimilarProteinsCsv();
-    }
   }
 
   createSimilarProteinsCsv() {
