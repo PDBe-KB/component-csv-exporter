@@ -75,36 +75,35 @@ export class CsvExporterComponent {
       'coverage', 'number-of-pdbs', 'number-of-ligands',
       'number-of-complexes', 'mapped-to-pdb']);
     const optionalData = this.optionalData;
-    this.data.forEach(function (item) {
-      const csvRow = [];
+    for (let i = 0; i < this.data.length; i++) {
+      const item = this.data[i];
+      let csvRow = [];
       csvRow.push(item.description ? item.description : '-');
       csvRow.push(item.uniprot_id ? item.uniprot_id : '-');
       csvRow.push(item.species ? item.species : '-');
-      if (item.representative_pdbs && item.representative_pdbs.length > 0) {
-        const pdbRow = [];
-        item.representative_pdbs.forEach(function (pdb) {
-          pdbRow.push(pdb.pdb_id + '_' + pdb.best_chain);
-        });
-        csvRow.push(pdbRow.join(';'));
-      } else {
-        csvRow.push('-');
-      }
+      csvRow = this.pushItem(item.representative_pdbs, csvRow);
       csvRow.push(item.coverage ? item.coverage : '-');
       csvRow.push(optionalData[item.uniprot_id] ? optionalData[item.uniprot_id]['pdbs'] : '-');
       csvRow.push(optionalData[item.uniprot_id] ? optionalData[item.uniprot_id]['ligands'] : '-');
       csvRow.push(optionalData[item.uniprot_id] ? optionalData[item.uniprot_id]['interaction_partners'] : '-');
-      if (item.mapped_segment.length > 0) {
-        const pdbRow = [];
-        item.mapped_segment.forEach(function (pdb) {
-          pdbRow.push(pdb.pdb_id + '_' + pdb.best_chain);
-        });
-        csvRow.push(pdbRow.join(';'));
-      } else {
-        csvRow.push('-');
-      }
+      csvRow = this.pushItem(item.mapped_segment, csvRow);
       csvData.push(csvRow);
-    });
+    }
+
     this.csvData = csvData;
+  }
+
+  private pushItem(item, csvRow) {
+    if (item && item.length > 0) {
+      const pdbRow = [];
+      item.forEach(function (pdb) {
+        pdbRow.push(pdb.pdb_id + '_' + pdb.best_chain);
+      });
+      csvRow.push(pdbRow.join(';'));
+    } else {
+      csvRow.push('-');
+    }
+    return csvRow;
   }
 
   createProtVistaCsv() {
