@@ -34,26 +34,30 @@ export class CsvExporterComponent {
   }
 
   createOrSave(input: string) {
+    let response;
     switch (input) {
       case 'csv':
-        this.saveCsvFile();
+        response = this.saveCsvFile();
         break;
       case 'json':
-        this.saveAsJson();
+        response = this.saveAsJson();
         break;
       case 'bibtex':
-        this.saveBibTeXFile();
+        response = this.saveBibTeXFile();
         break;
       case 'protvista':
-        this.createProtVistaCsv();
+        response = this.createProtVistaCsv();
         break;
       case 'publication':
-        this.createPublicationCsv();
+        response = this.createPublicationCsv();
         break;
       case 'similar':
-        this.createSimilarProteinsCsv();
+        response = this.createSimilarProteinsCsv();
+        break;
+      default:
         break;
     }
+    return response;
   }
 
   saveAsJson() {

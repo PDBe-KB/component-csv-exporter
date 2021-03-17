@@ -33,4 +33,32 @@ describe('CsvExporterComponent', () => {
     expect(component.sanitizeTooltip(tooltip)).toEqual('bar;');
   });
 
+  it('createOrSave() should work', () => {
+    component.saveCsvFile = function () {
+      return 'saveCsvFile';
+    };
+    component.saveAsJson = function () {
+      return 'saveAsJson';
+    };
+    component.saveBibTeXFile = function () {
+      return 'saveBibTeXFile';
+    };
+    component.createProtVistaCsv = function () {
+      return 'createProtVistaCsv';
+    };
+    component.createPublicationCsv = function () {
+      return 'createPublicationCsv';
+    };
+    component.createSimilarProteinsCsv = function () {
+      return 'createSimilarProteinsCsv';
+    };
+    expect(component.createOrSave('csv')).toEqual('saveCsvFile');
+    expect(component.createOrSave('json')).toEqual('saveAsJson');
+    expect(component.createOrSave('bibtex')).toEqual('saveBibTeXFile');
+    expect(component.createOrSave('protvista')).toEqual('createProtVistaCsv');
+    expect(component.createOrSave('publication')).toEqual('createPublicationCsv');
+    expect(component.createOrSave('similar')).toEqual('createSimilarProteinsCsv');
+    expect(component.createOrSave('')).toBeFalsy();
+  });
+
 });
