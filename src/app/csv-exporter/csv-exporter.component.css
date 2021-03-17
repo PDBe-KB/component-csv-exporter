@@ -1,0 +1,39 @@
+.button {
+  padding: 7.2px 14.4px 7.2px 14.4px;
+}
+
+.label-tooltip {
+  position: relative;
+  display: inline-block;
+  /*border-bottom: 1px dotted black;*/
+}
+
+.label-tooltip .label-tooltip-text {
+  visibility: hidden;
+  min-width: 200px;
+  max-width: 400px;
+  background-color: white;
+  color: #0a0a0a;
+  text-align: center;
+  border: solid 2px black;
+  border-radius: 6px;
+  padding: 5px 3px 5px 3px;
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 110%;
+}
+
+.label-tooltip .label-tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+.label-tooltip:hover .label-tooltip-text {
+  visibility: visible;
+}

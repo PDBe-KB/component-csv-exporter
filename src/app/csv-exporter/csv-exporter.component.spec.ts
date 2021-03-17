@@ -16,6 +16,7 @@ describe('CsvExporterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CsvExporterComponent);
     component = fixture.componentInstance;
+    component.section = 'section'
     fixture.detectChanges();
   });
 
