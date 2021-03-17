@@ -23,4 +23,14 @@ describe('CsvExporterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('sanitizeTooltip() should work', () => {
+    let tooltip = 'asd<br>';
+    expect(component.sanitizeTooltip(tooltip)).toEqual('asd ');
+    tooltip = 'foo,';
+    expect(component.sanitizeTooltip(tooltip)).toEqual('foo;');
+    tooltip = '<a href="...">bar</a>';
+    expect(component.sanitizeTooltip(tooltip)).toEqual('bar;');
+  });
+
 });
