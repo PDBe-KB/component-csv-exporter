@@ -1,27 +1,87 @@
-# PdbeKbCsvExporter
+PDBe-KB CSV Exporter
+=
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
+This is the repository of a lightweight Angular 7 web component that provides information on literature, generally from PubMed/EuropePMC.
 
-## Development server
+This component is used on the PDBe-KB Aggregated Views of Proteins to display publications related to all the PDB entries of a UniProt accession.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Example:
 
-## Code scaffolding
+<img src="https://raw.githubusercontent.com/PDBe-KB/component-csv-exporter/main/pdbe-kb-csv-exporter.png">
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Quick Start
 
-## Build
+Get the code and install dependencies
+```
+git clone https://github.com/PDBe-KB/component-csv-exporter.git
+cd component-csv-exporter
+npm i
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Running the app
+```
+ng serve
+```
 
-## Running unit tests
+Running tests
+```
+ng test
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Dependencies
 
-## Running end-to-end tests
+The main template should also have the following CSS import:
+```angular2html
+<link rel="stylesheet" href="https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.3/css/ebi-global.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="https://ebi.emblstatic.net/web_guidelines/EBI-Icon-fonts/v1.3/fonts.css" type="text/css" media="all"/>
+<link rel="stylesheet" href="https://ebi.emblstatic.net/web_guidelines/EBI-Framework/v1.3/css/theme-pdbe-green.css" type="text/css" media="all"/>
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Basic usage
 
-## Further help
+The component can be added to any Angular7+ apps.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Import the component (e.g. in app.module.ts):
+```
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+import { CsvExporterComponent } from './csv-exporter/csv-exporter.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    CsvExporterComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+Adding the component to a template:
+```angular2html
+<app-csv-exporter [data]="data" [accession]="accession" [section]="section" category="publication"></app-csv-exporter>
+```
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/PDBe-KB/component-csv-exporter/tags).
+
+## Authors
+
+* **Mihaly Varadi** - *Migrating to GitHub* - [mvaradi](https://github.com/mvaradi)
+
+See also the list of [contributors](https://github.com/PDBe-KB/component-csv-exporter/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the EMBL-EBI License - see the [LICENSE](LICENSE) file for details
+
+## Acknowledgements
+
+We would like to thank the [PDBe team](https://www.pdbe.org) and the [PDBe-KB partner resources](https://github.com/PDBe-KB/pdbe-kb-manual/wiki/PDBe-KB-Annotations) for their feedback and contributions.
