@@ -5,7 +5,6 @@
 .label-tooltip {
   position: relative;
   display: inline-block;
-  /*border-bottom: 1px dotted black;*/
 }
 
 .label-tooltip .label-tooltip-text {

@@ -180,12 +180,13 @@ export class CsvExporterComponent {
     data.forEach(function (dataString, index) {
       fileContent += index < data.length ? dataString + '\n' : dataString;
     });
-    this.downloadFile(fileContent, this.accession + '-' + this.section + '.bib', 'text/csv;encoding:utf-8');
+    const fileName = this.accession + '-' + this.section + '.bib';
+    this.downloadFile(fileContent, fileName, 'text/csv;encoding:utf-8');
   }
 
   saveCsvFile() {
     // Building the CSV from the Data two-dimensional array
-// Each column is separated by ";" and new line "\n" for next row
+    // Each column is separated by ";" and new line "\n" for next row
     let csvContent = '';
     const data = this.csvData;
     data.forEach(function (infoArray, index) {
@@ -193,9 +194,10 @@ export class CsvExporterComponent {
       csvContent += index < data.length ? dataString + '\n' : dataString;
     });
 
-// The download function takes a CSV string, the filename and mimeType as parameters
-// Scroll/look down at the bottom of this snippet to see how download is called
-    this.downloadFile(csvContent, this.accession + '-' + this.section + '.csv', 'text/csv;encoding:utf-8');
+    // The download function takes a CSV string, the filename and mimeType as parameters
+    // Scroll/look down at the bottom of this snippet to see how download is called
+    const fileName = this.accession + '-' + this.section + '.csv';
+    this.downloadFile(csvContent, fileName, 'text/csv;encoding:utf-8');
   }
 
   downloadFile(content, fileName, mimeType) {

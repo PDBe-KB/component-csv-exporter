@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CsvExporterComponent } from './csv-exporter.component';
+import {CsvExporterComponent} from './csv-exporter.component';
 
 describe('CsvExporterComponent', () => {
   let component: CsvExporterComponent;
@@ -8,9 +8,9 @@ describe('CsvExporterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CsvExporterComponent ]
+      declarations: [CsvExporterComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
