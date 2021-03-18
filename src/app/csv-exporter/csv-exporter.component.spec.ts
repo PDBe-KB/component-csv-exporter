@@ -61,6 +61,13 @@ describe('CsvExporterComponent', () => {
     expect(component.pushItem([], [])).toEqual(['-']);
   });
 
+  it('saveAsJson() should work', () => {
+    component.accession = 'accession';
+    component.section = 'section';
+    component.data = [];
+    expect(component.saveAsJson()).toEqual('accession-section.json');
+  });
+
   it('createOrSave() should work', () => {
     component.saveCsvFile = function () {
       return 'saveCsvFile';
