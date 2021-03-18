@@ -73,6 +73,9 @@ export class CsvExporterComponent {
   }
 
   createSimilarProteinsCsv() {
+    if (!this.data || !this.optionalData) {
+      return;
+    }
     const csvData = [];
     csvData.push([
       'protein-name', 'uniprot-id', 'species', 'representative-pdbs',
@@ -93,11 +96,11 @@ export class CsvExporterComponent {
       csvRow = this.pushItem(item.mapped_segment, csvRow);
       csvData.push(csvRow);
     }
-
     this.csvData = csvData;
+    return csvData;
   }
 
-  private pushItem(item, csvRow) {
+  pushItem(item, csvRow) {
     if (item && item.length > 0) {
       const pdbRow = [];
       item.forEach(function (pdb) {

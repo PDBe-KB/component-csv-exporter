@@ -33,6 +33,24 @@ describe('CsvExporterComponent', () => {
     expect(component.sanitizeTooltip(tooltip)).toEqual('bar;');
   });
 
+  it('createSimilarProteinsCsv() should work', () => {
+    const headerData = [
+      'protein-name', 'uniprot-id', 'species', 'representative-pdbs',
+      'coverage', 'number-of-pdbs', 'number-of-ligands',
+      'number-of-complexes', 'mapped-to-pdb'];
+    expect(component.createSimilarProteinsCsv()).toBeFalsy();
+    component.data = [];
+    component.optionalData = {};
+    expect(component.createSimilarProteinsCsv()).toEqual([headerData]);
+    component.data = [{
+      'description': 'foo',
+    }];
+    component.optionalData = {};
+    const expected = ['foo', '-', '-', '-', '-', '-', '-'];
+    component.pushItem = function(item: any, data: any) {return data; };
+    expect(component.createSimilarProteinsCsv()).toEqual([headerData, expected]);
+  });
+
   it('createOrSave() should work', () => {
     component.saveCsvFile = function () {
       return 'saveCsvFile';
@@ -50,14 +68,14 @@ describe('CsvExporterComponent', () => {
       return 'createPublicationCsv';
     };
     component.createSimilarProteinsCsv = function () {
-      return 'createSimilarProteinsCsv';
+      return ['createSimilarProteinsCsv'];
     };
     expect(component.createOrSave('csv')).toEqual('saveCsvFile');
     expect(component.createOrSave('json')).toEqual('saveAsJson');
     expect(component.createOrSave('bibtex')).toEqual('saveBibTeXFile');
     expect(component.createOrSave('protvista')).toEqual('createProtVistaCsv');
     expect(component.createOrSave('publication')).toEqual('createPublicationCsv');
-    expect(component.createOrSave('similar')).toEqual('createSimilarProteinsCsv');
+    expect(component.createOrSave('similar')).toEqual(['createSimilarProteinsCsv']);
     expect(component.createOrSave('')).toBeFalsy();
   });
 
