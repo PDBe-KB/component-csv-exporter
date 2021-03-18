@@ -51,6 +51,16 @@ describe('CsvExporterComponent', () => {
     expect(component.createSimilarProteinsCsv()).toEqual([headerData, expected]);
   });
 
+  it('pushItem() should work', () => {
+    const item = [
+      {'pdb_id': '1foo', 'best_chain': 'A'},
+      {'pdb_id': '2bar', 'best_chain': 'B'}
+      ];
+    const expected = ['1foo_A;2bar_B'];
+    expect(component.pushItem(item, [])).toEqual(expected);
+    expect(component.pushItem([], [])).toEqual(['-']);
+  });
+
   it('createOrSave() should work', () => {
     component.saveCsvFile = function () {
       return 'saveCsvFile';
