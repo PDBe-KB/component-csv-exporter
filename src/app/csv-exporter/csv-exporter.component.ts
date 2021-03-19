@@ -114,6 +114,9 @@ export class CsvExporterComponent {
   }
 
   createProtVistaCsv() {
+    if (!this.data) {
+      return;
+    }
     const csvData = [];
     csvData.push(['accession', 'type', 'label', 'start', 'end', 'notes']);
     const tracks = this.data['tracks'];

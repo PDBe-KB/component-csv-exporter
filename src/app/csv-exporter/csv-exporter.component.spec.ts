@@ -134,6 +134,46 @@ describe('CsvExporterComponent', () => {
     expect(component.csvData).toEqual(expectedWithPDB);
   });
 
+  it('createProtVistaCsv() should handle missing data', () => {
+    component.data = undefined;
+    component.createProtVistaCsv();
+    expect(component.csvData).toEqual([]);
+  });
+
+  it('createProtVistaCsv() should correctly create output', () => {
+    component.data = {
+      'tracks': [
+        {
+          'label': 'label',
+          'data': [
+            {
+              'accession': 'accession',
+              'locations': [
+                {
+                  'fragments': [
+                    {
+                      'start': 1,
+                      'end': 42,
+                      'tooltipContent': 'tooltip'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    component.accession = 'P12345'
+    const expected = [
+      ['accession', 'type', 'label', 'start', 'end', 'notes'],
+      ['P12345', 'label', 'accession', 1, 42, 'tooltip']
+    ]
+    component.sanitizeTooltip = function(text: any) {return text; };
+    component.createProtVistaCsv();
+    expect(component.csvData).toEqual(expected);
+  });
+
   it('createOrSave() should work', () => {
     component.saveCsvFile = function () {
       return 'saveCsvFile';
