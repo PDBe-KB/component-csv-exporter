@@ -166,6 +166,9 @@ export class CsvExporterComponent {
   }
 
   createBibTeX() {
+    if (!this.data || !this.data['publications']) {
+      return;
+    }
     const bibData = [];
     this.data['publications'].forEach(function (publication) {
       bibData.push('@article {' + publication['pubmed_id'] + ',');

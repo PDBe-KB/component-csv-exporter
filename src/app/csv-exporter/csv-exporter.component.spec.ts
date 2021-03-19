@@ -196,9 +196,65 @@ describe('CsvExporterComponent', () => {
       ['accession', 'type', 'label', 'start', 'end', 'notes'],
       ['P12345', 'label', 'accession', 1, 42, 'tooltip']
     ];
-    component.sanitizeTooltip = function(text: any) {return text; };
+    component.sanitizeTooltip = function (text: any) {
+      return text;
+    };
     component.createProtVistaCsv();
     expect(component.csvData).toEqual(expected);
+  });
+
+  it('createBibTeX() should handle missing data', () => {
+    // Test if completely missing data results in empty array
+    component.data = undefined;
+    component.createBibTeX();
+    expect(component.bibData).toEqual([]);
+  });
+
+  it('createBibTeX() should handle partially missing data', () => {
+    // Test if partially missing data results in empty array
+    component.data = {'foo': 'bar'};
+    component.createBibTeX();
+    expect(component.bibData).toEqual([]);
+  });
+
+  it('createBibTeX() should create correct output', () => {
+    // Test if correct input data results in correct output data
+    component.data = {
+      'publications': [
+        {
+          'pubmed_id': 'PMID',
+          'title': 'TITLE',
+          'doi': 'DOI'
+        }
+      ]
+    };
+    const expected = [
+      '@article {PMID,',
+      '\tTitle = {TITLE},',
+      '\tDOI = {DOI},',
+      '}\n'
+    ];
+    component.createBibTeX();
+    expect(component.bibData).toEqual(expected);
+  });
+
+  it('createBibTeX() should create correct output with no DOI', () => {
+    // Test if correct input data results in correct output data when DOI is n/a
+    component.data = {
+      'publications': [
+        {
+          'pubmed_id': 'PMID',
+          'title': 'TITLE'
+        }
+      ]
+    };
+    const expected = [
+      '@article {PMID,',
+      '\tTitle = {TITLE},',
+      '}\n'
+    ];
+    component.createBibTeX();
+    expect(component.bibData).toEqual(expected);
   });
 
   it('createOrSave() should work', () => {
