@@ -302,6 +302,7 @@ describe('CsvExporterComponent', () => {
   });
 
   it('saveBibTeXFile() should create BibTeXFile content', () => {
+    // Test if the correct data is passed for downloading
     component.bibData = [
       '@article {PMID,',
       '\tTitle = {TITLE},',
@@ -311,6 +312,11 @@ describe('CsvExporterComponent', () => {
     component.downloadFile = function(x: any, y: any, z: any) {return; };
     const expected = '@article {PMID,\n\tTitle = {TITLE},\n\tDOI = {DOI},\n}\n\n';
     expect(component.saveBibTeXFile()).toEqual(expected);
+  });
+
+  it('downloadFile() should work without errors', () => {
+    // Test if the method does not throw any errors
+    expect(component.downloadFile('', 'tmp', 'application/octet-stream')).toBeFalsy();
   });
 
 });
