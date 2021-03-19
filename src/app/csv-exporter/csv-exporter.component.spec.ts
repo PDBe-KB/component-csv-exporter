@@ -43,7 +43,7 @@ describe('CsvExporterComponent', () => {
 
   it('sanitizeTooltip() should remove a-tags', () => {
     // Test if <a> tags are correctly removed
-    const tooltip = '<a href="...">bar</a>';
+    const tooltip = '<a href="">bar</a>';
     expect(component.sanitizeTooltip(tooltip)).toEqual('bar;');
   });
 
@@ -273,20 +273,20 @@ describe('CsvExporterComponent', () => {
       return 'saveBibTeXFile';
     };
     component.createProtVistaCsv = function () {
-      return 'createProtVistaCsv';
+      return;
     };
     component.createPublicationCsv = function () {
-      return 'createPublicationCsv';
+      return;
     };
     component.createSimilarProteinsCsv = function () {
-      return 'createSimilarProteinsCsv';
+      return;
     };
     expect(component.createOrSave('csv')).toEqual('saveCsvFile');
     expect(component.createOrSave('json')).toEqual('saveAsJson');
     expect(component.createOrSave('bibtex')).toEqual('saveBibTeXFile');
-    expect(component.createOrSave('protvista')).toEqual('createProtVistaCsv');
-    expect(component.createOrSave('publication')).toEqual('createPublicationCsv');
-    expect(component.createOrSave('similar')).toEqual('createSimilarProteinsCsv');
+    expect(component.createOrSave('protvista')).toBeFalsy();
+    expect(component.createOrSave('publication')).toBeFalsy();
+    expect(component.createOrSave('similar')).toBeFalsy();
     expect(component.createOrSave('')).toBeFalsy();
   });
 
