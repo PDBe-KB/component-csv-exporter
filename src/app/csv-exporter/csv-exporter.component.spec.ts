@@ -48,17 +48,42 @@ describe('CsvExporterComponent', () => {
     expect(component.csvData).toEqual([]);
   });
 
-  it('createSimilarProteinsCsv() should work with data', () => {
-    // Test if headers and data are saved as intended
+  it('createSimilarProteinsCsv() should work with partial data', () => {
+    // Test if headers and data are saved as intended with partial data
+    const headerData = [
+      'protein-name', 'uniprot-id', 'species', 'representative-pdbs',
+      'coverage', 'number-of-pdbs', 'number-of-ligands',
+      'number-of-complexes', 'mapped-to-pdb'];
+    component.data = [{}];
+    component.optionalData = {};
+    const expected = ['-', '-', '-', '-', '-', '-', '-'];
+    component.pushItem = function (item: any, data: any) {
+      return data;
+    };
+    component.createSimilarProteinsCsv();
+    expect(component.csvData).toEqual([headerData, expected]);
+  });
+
+  it('createSimilarProteinsCsv() should work with complete data', () => {
+    // Test if headers and data are saved as intended with complete data
     const headerData = [
       'protein-name', 'uniprot-id', 'species', 'representative-pdbs',
       'coverage', 'number-of-pdbs', 'number-of-ligands',
       'number-of-complexes', 'mapped-to-pdb'];
     component.data = [{
-      'description': 'foo',
+      'description': 'desc',
+      'uniprot_id': 'unp',
+      'species': 'spec',
+      'coverage': 0.9,
     }];
-    component.optionalData = {};
-    const expected = ['foo', '-', '-', '-', '-', '-', '-'];
+    component.optionalData = {
+      'unp': {
+        'pdbs': 'pdbs',
+        'ligands': 'ligs',
+        'interaction_partners': 'inp'
+      }
+    };
+    const expected = ['desc', 'unp', 'spec', 0.9, 'pdbs', 'ligs', 'inp'];
     component.pushItem = function (item: any, data: any) {
       return data;
     };
@@ -135,12 +160,14 @@ describe('CsvExporterComponent', () => {
   });
 
   it('createProtVistaCsv() should handle missing data', () => {
+    // Test if empty data correctly results in an empty array
     component.data = undefined;
     component.createProtVistaCsv();
     expect(component.csvData).toEqual([]);
   });
 
   it('createProtVistaCsv() should correctly create output', () => {
+    // Test if the correct output is created when the input data is present
     component.data = {
       'tracks': [
         {
@@ -164,11 +191,11 @@ describe('CsvExporterComponent', () => {
         }
       ]
     };
-    component.accession = 'P12345'
+    component.accession = 'P12345';
     const expected = [
       ['accession', 'type', 'label', 'start', 'end', 'notes'],
       ['P12345', 'label', 'accession', 1, 42, 'tooltip']
-    ]
+    ];
     component.sanitizeTooltip = function(text: any) {return text; };
     component.createProtVistaCsv();
     expect(component.csvData).toEqual(expected);
