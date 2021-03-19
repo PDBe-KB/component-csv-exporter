@@ -140,6 +140,9 @@ export class CsvExporterComponent {
   }
 
   createPublicationCsv() {
+    if (!this.data) {
+      return;
+    }
     const csvData = [];
     if (this.data['publications'][0]['associated_pdbs'].length > 0) {
       csvData.push(['PubMed ID', 'Title', 'Related PDB entries']);

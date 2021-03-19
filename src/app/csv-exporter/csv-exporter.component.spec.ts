@@ -49,7 +49,9 @@ describe('CsvExporterComponent', () => {
     }];
     component.optionalData = {};
     const expected = ['foo', '-', '-', '-', '-', '-', '-'];
-    component.pushItem = function(item: any, data: any) {return data; };
+    component.pushItem = function (item: any, data: any) {
+      return data;
+    };
     component.createSimilarProteinsCsv();
     expect(component.csvData).toEqual([headerData, expected]);
   });
@@ -58,7 +60,7 @@ describe('CsvExporterComponent', () => {
     const item = [
       {'pdb_id': '1foo', 'best_chain': 'A'},
       {'pdb_id': '2bar', 'best_chain': 'B'}
-      ];
+    ];
     const expected = ['1foo_A;2bar_B'];
     expect(component.pushItem(item, [])).toEqual(expected);
     expect(component.pushItem([], [])).toEqual(['-']);
@@ -69,6 +71,48 @@ describe('CsvExporterComponent', () => {
     component.section = 'section';
     component.data = [];
     expect(component.saveAsJson()).toEqual('accession-section.json');
+  });
+
+  it('createPublicationCsv() should work', () => {
+    // Test if empty data is handled
+    component.data = undefined;
+    component.createPublicationCsv();
+    expect(component.csvData).toEqual([]);
+
+    // Test if data with no associated PDB entries is handled
+    component.data = {
+      'publications': [
+        {
+          'pubmed_id': 'PMID 123',
+          'title': 'FOO,BAR',
+          'associated_pdbs': []
+        }
+      ]
+    };
+    const expectedNoPDB = [
+      ['PubMed ID', 'Title'],
+      ['PMID 123', 'FOO BAR']
+    ];
+    component.createPublicationCsv();
+    expect(component.csvData).toEqual(expectedNoPDB);
+
+    // Test if data with associated PDB entries is handled
+    component.data = {
+      'publications': [
+        {
+          'pubmed_id': 'PMID 123',
+          'title': 'FOO,BAR',
+          'associated_pdbs': ['1foo', '2bar']
+        }
+      ]
+    };
+    const expectedWithPDB = [
+      ['PubMed ID', 'Title', 'Related PDB entries'],
+      ['PMID 123', 'FOO BAR', '1foo;2bar']
+    ];
+    component.createPublicationCsv();
+    expect(component.csvData).toEqual(expectedWithPDB);
+
   });
 
   it('createOrSave() should work', () => {
@@ -88,7 +132,7 @@ describe('CsvExporterComponent', () => {
       return 'createPublicationCsv';
     };
     component.createSimilarProteinsCsv = function () {
-      return ['createSimilarProteinsCsv'];
+      return 'createSimilarProteinsCsv';
     };
     expect(component.createOrSave('csv')).toEqual('saveCsvFile');
     expect(component.createOrSave('json')).toEqual('saveAsJson');
