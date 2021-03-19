@@ -319,4 +319,13 @@ describe('CsvExporterComponent', () => {
     expect(component.downloadFile('', 'tmp', 'application/octet-stream')).toBeFalsy();
   });
 
+  it('setDownloadType() should work', () => {
+    // Test if this simple control method runs
+    component.createOrSave = function(x: string) {return; };
+    component.createBibTeX = function() {return; };
+    component.category = 'publication';
+    component.setDownloadType('foo');
+    expect(component.downloadType).toEqual('foo');
+  });
+
 });
