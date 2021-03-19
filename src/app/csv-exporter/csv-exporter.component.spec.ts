@@ -38,17 +38,20 @@ describe('CsvExporterComponent', () => {
       'protein-name', 'uniprot-id', 'species', 'representative-pdbs',
       'coverage', 'number-of-pdbs', 'number-of-ligands',
       'number-of-complexes', 'mapped-to-pdb'];
-    expect(component.createSimilarProteinsCsv()).toBeFalsy();
+    component.createSimilarProteinsCsv();
+    expect(component.csvData).toEqual([]);
     component.data = [];
     component.optionalData = {};
-    expect(component.createSimilarProteinsCsv()).toEqual([headerData]);
+    component.createSimilarProteinsCsv();
+    expect(component.csvData).toEqual([headerData]);
     component.data = [{
       'description': 'foo',
     }];
     component.optionalData = {};
     const expected = ['foo', '-', '-', '-', '-', '-', '-'];
     component.pushItem = function(item: any, data: any) {return data; };
-    expect(component.createSimilarProteinsCsv()).toEqual([headerData, expected]);
+    component.createSimilarProteinsCsv();
+    expect(component.csvData).toEqual([headerData, expected]);
   });
 
   it('pushItem() should work', () => {

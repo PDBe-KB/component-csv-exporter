@@ -98,7 +98,6 @@ export class CsvExporterComponent {
       csvData.push(csvRow);
     }
     this.csvData = csvData;
-    return csvData;
   }
 
   pushItem(item, csvRow) {
