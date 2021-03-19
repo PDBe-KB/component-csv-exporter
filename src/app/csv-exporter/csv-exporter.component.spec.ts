@@ -24,26 +24,36 @@ describe('CsvExporterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('sanitizeTooltip() should work', () => {
-    let tooltip = 'asd<br>';
+  it('sanitizeTooltip() should handle <br>', () => {
+    // Test if <br> tags are changed in whitespace
+    const tooltip = 'asd<br>';
     expect(component.sanitizeTooltip(tooltip)).toEqual('asd ');
-    tooltip = 'foo,';
+  });
+
+  it('sanitizeTooltip() should convert , to ;', () => {
+    // Test if commas (,) are changed to semi-colons (;)
+    const tooltip = 'foo,';
     expect(component.sanitizeTooltip(tooltip)).toEqual('foo;');
-    tooltip = '<a href="...">bar</a>';
+  });
+
+  it('sanitizeTooltip() should remove a-tags', () => {
+    // Test if <a> tags are correctly removed
+    const tooltip = '<a href="...">bar</a>';
     expect(component.sanitizeTooltip(tooltip)).toEqual('bar;');
   });
 
-  it('createSimilarProteinsCsv() should work', () => {
+  it('createSimilarProteinsCsv() should handle missing data', () => {
+    // Test if missing data leads to empty output
+    component.createSimilarProteinsCsv();
+    expect(component.csvData).toEqual([]);
+  });
+
+  it('createSimilarProteinsCsv() should work with data', () => {
+    // Test if headers and data are saved as intended
     const headerData = [
       'protein-name', 'uniprot-id', 'species', 'representative-pdbs',
       'coverage', 'number-of-pdbs', 'number-of-ligands',
       'number-of-complexes', 'mapped-to-pdb'];
-    component.createSimilarProteinsCsv();
-    expect(component.csvData).toEqual([]);
-    component.data = [];
-    component.optionalData = {};
-    component.createSimilarProteinsCsv();
-    expect(component.csvData).toEqual([headerData]);
     component.data = [{
       'description': 'foo',
     }];
@@ -56,29 +66,37 @@ describe('CsvExporterComponent', () => {
     expect(component.csvData).toEqual([headerData, expected]);
   });
 
-  it('pushItem() should work', () => {
+  it('pushItem() should handle empty data', () => {
+    // Test is missing data returns the right output
+    expect(component.pushItem([], [])).toEqual(['-']);
+  });
+
+  it('pushItem() should work with correct data', () => {
+    // Test if data are pushed to an array as expected
     const item = [
       {'pdb_id': '1foo', 'best_chain': 'A'},
       {'pdb_id': '2bar', 'best_chain': 'B'}
     ];
     const expected = ['1foo_A;2bar_B'];
     expect(component.pushItem(item, [])).toEqual(expected);
-    expect(component.pushItem([], [])).toEqual(['-']);
   });
 
   it('saveAsJson() should work', () => {
+    // Test if the method can save JSON files with the correct file name
     component.accession = 'accession';
     component.section = 'section';
     component.data = [];
     expect(component.saveAsJson()).toEqual('accession-section.json');
   });
 
-  it('createPublicationCsv() should work', () => {
+  it('createPublicationCsv() should handle empty data', () => {
     // Test if empty data is handled
     component.data = undefined;
     component.createPublicationCsv();
     expect(component.csvData).toEqual([]);
+  });
 
+  it('createPublicationCsv() should work when there are no PDBs', () => {
     // Test if data with no associated PDB entries is handled
     component.data = {
       'publications': [
@@ -95,7 +113,9 @@ describe('CsvExporterComponent', () => {
     ];
     component.createPublicationCsv();
     expect(component.csvData).toEqual(expectedNoPDB);
+  });
 
+  it('createPublicationCsv() should work with associated PDBs', () => {
     // Test if data with associated PDB entries is handled
     component.data = {
       'publications': [
@@ -112,7 +132,6 @@ describe('CsvExporterComponent', () => {
     ];
     component.createPublicationCsv();
     expect(component.csvData).toEqual(expectedWithPDB);
-
   });
 
   it('createOrSave() should work', () => {
