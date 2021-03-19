@@ -216,6 +216,7 @@ export class CsvExporterComponent {
     // Scroll/look down at the bottom of this snippet to see how download is called
     const fileName = this.accession + '-' + this.section + '.csv';
     this.downloadFile(csvContent, fileName, 'text/csv;encoding:utf-8');
+    return csvContent;
   }
 
   downloadFile(content, fileName, mimeType) {

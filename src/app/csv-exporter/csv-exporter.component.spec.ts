@@ -24,6 +24,11 @@ describe('CsvExporterComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('sanitizeTooltip() should handle missing data', () => {
+    // Test if missing data is handled
+    expect(component.sanitizeTooltip(undefined)).toBeFalsy();
+  });
+
   it('sanitizeTooltip() should handle <br>', () => {
     // Test if <br> tags are changed in whitespace
     const tooltip = 'asd<br>';
@@ -283,6 +288,17 @@ describe('CsvExporterComponent', () => {
     expect(component.createOrSave('publication')).toEqual('createPublicationCsv');
     expect(component.createOrSave('similar')).toEqual('createSimilarProteinsCsv');
     expect(component.createOrSave('')).toBeFalsy();
+  });
+
+  it('saveCsvFile() should save a CSV file', () => {
+    // Test if the correct data is passed for downloading
+    component.csvData = [
+      ['PubMed ID', 'Title', 'Related PDB entries'],
+      ['PMID 123', 'FOO BAR', '1foo;2bar']
+    ];
+    component.downloadFile = function(x: any, y: any, z: any) {return; };
+    const expected = 'PubMed ID,Title,Related PDB entries\nPMID 123,FOO BAR,1foo;2bar\n';
+    expect(component.saveCsvFile()).toEqual(expected);
   });
 
 });
