@@ -200,6 +200,7 @@ export class CsvExporterComponent {
     });
     const fileName = this.accession + '-' + this.section + '.bib';
     this.downloadFile(fileContent, fileName, 'text/csv;encoding:utf-8');
+    return fileContent;
   }
 
   saveCsvFile() {

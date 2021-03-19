@@ -290,7 +290,7 @@ describe('CsvExporterComponent', () => {
     expect(component.createOrSave('')).toBeFalsy();
   });
 
-  it('saveCsvFile() should save a CSV file', () => {
+  it('saveCsvFile() should create CSV content', () => {
     // Test if the correct data is passed for downloading
     component.csvData = [
       ['PubMed ID', 'Title', 'Related PDB entries'],
@@ -299,6 +299,18 @@ describe('CsvExporterComponent', () => {
     component.downloadFile = function(x: any, y: any, z: any) {return; };
     const expected = 'PubMed ID,Title,Related PDB entries\nPMID 123,FOO BAR,1foo;2bar\n';
     expect(component.saveCsvFile()).toEqual(expected);
+  });
+
+  it('saveBibTeXFile() should create BibTeXFile content', () => {
+    component.bibData = [
+      '@article {PMID,',
+      '\tTitle = {TITLE},',
+      '\tDOI = {DOI},',
+      '}\n'
+    ];
+    component.downloadFile = function(x: any, y: any, z: any) {return; };
+    const expected = '@article {PMID,\n\tTitle = {TITLE},\n\tDOI = {DOI},\n}\n\n';
+    expect(component.saveBibTeXFile()).toEqual(expected);
   });
 
 });
