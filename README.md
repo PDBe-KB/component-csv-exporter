@@ -5,10 +5,9 @@ PDBe-KB CSV Exporter
 [![codecov](https://codecov.io/gh/PDBe-KB/component-csv-exporter/branch/main/graph/badge.svg?token=SADIB9IIC1)](https://codecov.io/gh/PDBe-KB/component-csv-exporter)
 [![Maintainability](https://api.codeclimate.com/v1/badges/32945c274a482e312448/maintainability)](https://codeclimate.com/github/PDBe-KB/component-csv-exporter/maintainability)
 
-This is the repository of a lightweight Angular 7 web component that provides information on literature, generally from PubMed/EuropePMC.
+This is the repository of a lightweight Angular 7 web component that allows the users to download data in CSV, JSON and BibTeX formats.
 
-This component is used on the PDBe-KB Aggregated Views of Proteins to display publications related to all the PDB entries of a UniProt accession.
-
+The component is used on the PDBe-KB Aggregated Views of Proteins.
 ### Example:
 
 <img src="https://raw.githubusercontent.com/PDBe-KB/component-csv-exporter/main/pdbe-kb-csv-exporter.png">
