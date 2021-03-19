@@ -16,7 +16,7 @@ describe('CsvExporterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CsvExporterComponent);
     component = fixture.componentInstance;
-    component.section = 'section'
+    component.section = 'section';
     fixture.detectChanges();
   });
 
@@ -139,7 +139,7 @@ describe('CsvExporterComponent', () => {
     expect(component.createOrSave('bibtex')).toEqual('saveBibTeXFile');
     expect(component.createOrSave('protvista')).toEqual('createProtVistaCsv');
     expect(component.createOrSave('publication')).toEqual('createPublicationCsv');
-    expect(component.createOrSave('similar')).toEqual(['createSimilarProteinsCsv']);
+    expect(component.createOrSave('similar')).toEqual('createSimilarProteinsCsv');
     expect(component.createOrSave('')).toBeFalsy();
   });
 
